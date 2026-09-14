@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "トリキ牌ゲーム"
+description = "居酒屋メニューを集めて3-3-2の手牌を目指す、スマホ縦画面向けの麻雀風スコアアタックゲーム。"
+version = "1.0.0"
+id = "artifacts/toriki-hai-game"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 22348
+
+[services.development]
+run = "pnpm --filter @workspace/toriki-hai-game run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/toriki-hai-game", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/toriki-hai-game/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "22348"
+BASE_PATH = "/"
